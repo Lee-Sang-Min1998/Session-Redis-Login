@@ -3,6 +3,7 @@ package loginredis.loginredis.config;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import loginredis.loginredis.exception.UnauthorizedException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.servlet.HandlerInterceptor;
 
@@ -18,9 +19,7 @@ public class LoginInterceptor implements HandlerInterceptor {
         HttpSession session = request.getSession(false);
 
         if(session == null || session.getAttribute(LOGIN_USER_INFO)==null){
-
-            log.info("인증되지 않은 사용자:{}");
-            return false;
+           throw new UnauthorizedException();
         }
 
         return true;
